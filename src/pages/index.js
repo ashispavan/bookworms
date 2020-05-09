@@ -2,30 +2,48 @@ import React from 'react';
 import { Link, graphql } from 'gatsby';
 
 import Layout from '../components/layout';
+import BookItem from '../components/BookItem';
+import styled from 'styled-components';
+
+const LinkButton = styled.div`
+  text-align: right;
+  a {
+    padding: 8px;
+    background: rebeccapurple;
+    text-decoration: none;
+    border-radius: 5px;
+    color: white;
+
+    &:hover {
+      background: indigo;
+    }
+  }
+`;
 
 
 const IndexPage = (props) => {
-	const { allBook } = props.data;
-	return (
-		<Layout>
-			{allBook.edges.map(edge => {
-				console.log(edge);
-				return (
-					<div key={edge.node.id}>
-						<h2>
-							{edge.node.title} - <small>{edge.node.author.name}</small>
-						</h2>
-						<div>
-							{edge.node.summary}
-						</div>
-						<Link to={`/book/${edge.node.id}`}  >
+  const { allBook } = props.data;
+  return (
+    <Layout>
+      {allBook.edges.map(edge => {
+        return (
+          <BookItem 
+            key={edge.node.id}
+            bookCover={edge.node.localImage.publicURL} 
+            bookTitle={edge.node.title}
+            bookSummary={edge.node.summary}
+            authorName={edge.node.author.name}
+          >
+            <LinkButton>
+              <Link to={`/book/${edge.node.id}`}  >
             Join Conversion
-						</Link>
-					</div>
-				);
-			})}
-		</Layout>
-	);
+              </Link>
+            </LinkButton>
+          </BookItem>
+        );
+      })}
+    </Layout>
+  );
 };
 
 export const query = graphql`
@@ -36,6 +54,9 @@ export const query = graphql`
         id
         title
         summary
+        localImage {
+          publicURL
+        }
         author {
           name
         }
