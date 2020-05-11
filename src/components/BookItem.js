@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import Img from 'gatsby-image';
 
 
 const BookItemContainer = styled.section`
@@ -33,7 +34,7 @@ const BookItem = (props) => {
   return (
     <BookItemContainer>
       <BookItemImageWrapper>
-        <img src={bookCover} alt="Book Cover"/>
+        <Img fixed={bookCover}/>
       </BookItemImageWrapper>
       <BookItemContentWrapper>
         <h2>
